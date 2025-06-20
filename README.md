@@ -5,7 +5,7 @@ HotspotKenya is a Django-based WiFi hotspot billing system that allows users to 
 ## Screenshots
 
 ### Home Page
-![Home Page](https://raw.githubusercontent.com/Denisganga/HotspotKenya/main/screenshots/home_page.svg)
+![Home Page](images/iuigt)
 *Landing page with hero section, features, and popular packages*
 
 ### Packages Page
