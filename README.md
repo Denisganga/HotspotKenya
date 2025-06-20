@@ -14,7 +14,7 @@ HotspotKenya is a Django-based WiFi hotspot billing system that allows users to 
 
 1. Clone the repository:
 ```
-git clone https://github.com/yourusername/HotspotKenya.git
+git clone https://github.com/Denisganga/HotspotKenya.git
 cd HotspotKenya
 ```
 
