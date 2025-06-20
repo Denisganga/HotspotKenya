@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from .models import UserProfile
 from .forms import UserProfileForm, UserUpdateForm
 
@@ -49,3 +50,8 @@ def dashboard(request):
         'active_subscriptions': active_subscriptions
     }
     return render(request, 'accounts/dashboard.html', context)
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'You have been successfully logged out.')
+    return redirect('home')
