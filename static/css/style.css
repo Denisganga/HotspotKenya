@@ -1,0 +1,165 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+    margin-bottom: 30px;
+}
+
+/* Features Section */
+.features-section .card {
+    transition: transform 0.3s;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.features-section .card:hover {
+    transform: translateY(-10px);
+}
+
+.features-section .card i {
+    color: #007bff;
+}
+
+/* Packages Section */
+.packages-section .card {
+    transition: transform 0.3s;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.packages-section .card:hover {
+    transform: translateY(-10px);
+}
+
+.packages-section .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* How It Works Section */
+.step {
+    padding: 20px;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 auto 15px;
+}
+
+/* Dashboard */
+.dashboard-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.dashboard-icon {
+    font-size: 48px;
+    color: #007bff;
+}
+
+/* Package Details */
+.package-details-img {
+    max-height: 300px;
+    object-fit: cover;
+}
+
+/* Login & Register Forms */
+.auth-form {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile */
+.profile-header {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/profile-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 50px 0;
+    margin-bottom: 30px;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid white;
+}
+
+/* Admin Dashboard */
+.admin-sidebar {
+    min-height: calc(100vh - 56px);
+    background-color: #343a40;
+}
+
+.admin-sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.75);
+    padding: 15px 20px;
+    border-radius: 0;
+}
+
+.admin-sidebar .nav-link:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.admin-sidebar .nav-link.active {
+    color: white;
+    background-color: #007bff;
+}
+
+/* Payment Status */
+.payment-status-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.payment-spinner {
+    width: 100px;
+    height: 100px;
+    margin: 20px auto;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 50px 0;
+    }
+    
+    .profile-img {
+        width: 100px;
+        height: 100px;
+    }
+}

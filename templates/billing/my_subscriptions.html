@@ -1,0 +1,152 @@
+{% extends 'base/base.html' %}
+
+{% block title %}My Subscriptions - HotspotKenya{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">My Subscriptions</h3>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-4" id="subscriptionTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#active" type="button" role="tab">
+                            Active Subscriptions
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="expired-tab" data-bs-toggle="tab" data-bs-target="#expired" type="button" role="tab">
+                            Expired Subscriptions
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="subscriptionTabsContent">
+                    <div class="tab-pane fade show active" id="active" role="tabpanel">
+                        {% if active_subscriptions %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Package</th>
+                                            <th>Voucher Code</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <th>Data Used</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for subscription in active_subscriptions %}
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        {% if subscription.package.image %}
+                                                            <img src="{{ subscription.package.image.url }}" alt="{{ subscription.package.name }}" class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                        {% else %}
+                                                            <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                                                <i class="fas fa-wifi text-primary"></i>
+                                                            </div>
+                                                        {% endif %}
+                                                        <div>
+                                                            <strong>{{ subscription.package.name }}</strong>
+                                                            <div class="small text-muted">KSh {{ subscription.package.price }}</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><code>{{ subscription.voucher_code }}</code></td>
+                                                <td>{{ subscription.start_time|date:"M d, Y H:i" }}</td>
+                                                <td>{{ subscription.end_time|date:"M d, Y H:i" }}</td>
+                                                <td>
+                                                    {% if subscription.package.data_limit_mb %}
+                                                        {{ subscription.data_used_mb|filesizeformat }} / {{ subscription.package.data_limit_mb|filesizeformat }}
+                                                    {% else %}
+                                                        {{ subscription.data_used_mb|filesizeformat }}
+                                                    {% endif %}
+                                                </td>
+                                                <td><span class="badge bg-success">Active</span></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-5">
+                                <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
+                                <h4>No active subscriptions</h4>
+                                <p>You don't have any active internet packages at the moment.</p>
+                                <a href="{% url 'package_list' %}" class="btn btn-primary mt-2">Browse Packages</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="tab-pane fade" id="expired" role="tabpanel">
+                        {% if expired_subscriptions %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Package</th>
+                                            <th>Voucher Code</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <th>Data Used</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for subscription in expired_subscriptions %}
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        {% if subscription.package.image %}
+                                                            <img src="{{ subscription.package.image.url }}" alt="{{ subscription.package.name }}" class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                        {% else %}
+                                                            <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                                                <i class="fas fa-wifi text-primary"></i>
+                                                            </div>
+                                                        {% endif %}
+                                                        <div>
+                                                            <strong>{{ subscription.package.name }}</strong>
+                                                            <div class="small text-muted">KSh {{ subscription.package.price }}</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><code>{{ subscription.voucher_code }}</code></td>
+                                                <td>{{ subscription.start_time|date:"M d, Y H:i" }}</td>
+                                                <td>{{ subscription.end_time|date:"M d, Y H:i" }}</td>
+                                                <td>
+                                                    {% if subscription.package.data_limit_mb %}
+                                                        {{ subscription.data_used_mb|filesizeformat }} / {{ subscription.package.data_limit_mb|filesizeformat }}
+                                                    {% else %}
+                                                        {{ subscription.data_used_mb|filesizeformat }}
+                                                    {% endif %}
+                                                </td>
+                                                <td><span class="badge bg-secondary">Expired</span></td>
+                                                <td>
+                                                    <a href="{% url 'subscribe' subscription.package.id %}" class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-sync-alt me-1"></i> Renew
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-5">
+                                <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
+                                <h4>No expired subscriptions</h4>
+                                <p>You don't have any expired internet packages.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

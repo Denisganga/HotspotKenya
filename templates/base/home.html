@@ -1,0 +1,157 @@
+{% extends 'base/base.html' %}
+
+{% block title %}HotspotKenya - Affordable Internet Access{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="row align-items-center py-5">
+        <div class="col-md-6">
+            <h1 class="display-4 fw-bold">Fast & Reliable Internet Access</h1>
+            <p class="lead">Connect to our high-speed WiFi hotspots across Kenya with affordable packages.</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a href="{% url 'package_list' %}" class="btn btn-primary btn-lg px-4 me-md-2">View Packages</a>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'register' %}" class="btn btn-outline-secondary btn-lg px-4">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <img src="https://placehold.co/600x400?text=HotspotKenya" class="img-fluid rounded shadow" alt="HotspotKenya">
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row my-5 text-center">
+        <h2 class="mb-4">Why Choose HotspotKenya?</h2>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 package-card">
+                <div class="card-body">
+                    <i class="fas fa-bolt fa-3x text-primary mb-3"></i>
+                    <h3 class="card-title">High Speed</h3>
+                    <p class="card-text">Experience blazing fast internet speeds for streaming, browsing, and downloads.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 package-card">
+                <div class="card-body">
+                    <i class="fas fa-money-bill-wave fa-3x text-primary mb-3"></i>
+                    <h3 class="card-title">Affordable</h3>
+                    <p class="card-text">Choose from a variety of budget-friendly packages to suit your needs.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 package-card">
+                <div class="card-body">
+                    <i class="fas fa-map-marked-alt fa-3x text-primary mb-3"></i>
+                    <h3 class="card-title">Widespread Coverage</h3>
+                    <p class="card-text">Access our hotspots in various locations across Kenya.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular Packages Section -->
+    <div class="row my-5">
+        <div class="col-12 text-center mb-4">
+            <h2>Our Popular Packages</h2>
+            <p class="lead">Choose the perfect plan for your internet needs</p>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 package-card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Basic</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">KSh 50</h4>
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> 1 Hour Access</li>
+                        <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> 500MB Data</li>
+                        <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> 1Mbps Speed</li>
+                    </ul>
+                    <div class="d-grid">
+                        <a href="{% url 'package_list' %}" class="btn btn-primary">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 package-card border-primary">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Standard</h3>
+                    <span class="badge bg-warning">Most Popular</span>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">KSh 200</h4>
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> 24 Hours Access</li>
+                        <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> 2GB Data</li>
+                        <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> 3Mbps Speed</li>
+                    </ul>
+                    <div class="d-grid">
+                        <a href="{% url 'package_list' %}" class="btn btn-primary">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 package-card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Premium</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">KSh 500</h4>
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> 7 Days Access</li>
+                        <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> 10GB Data</li>
+                        <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> 5Mbps Speed</li>
+                    </ul>
+                    <div class="d-grid">
+                        <a href="{% url 'package_list' %}" class="btn btn-primary">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div class="row my-5">
+        <div class="col-12 text-center mb-4">
+            <h2>How It Works</h2>
+            <p class="lead">Get connected in 3 simple steps</p>
+        </div>
+        
+        <div class="col-md-4 mb-4 text-center">
+            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                <h3 class="m-0">1</h3>
+            </div>
+            <h4>Sign Up</h4>
+            <p>Create an account with your details</p>
+        </div>
+        
+        <div class="col-md-4 mb-4 text-center">
+            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                <h3 class="m-0">2</h3>
+            </div>
+            <h4>Choose a Package</h4>
+            <p>Select a package that suits your needs</p>
+        </div>
+        
+        <div class="col-md-4 mb-4 text-center">
+            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                <h3 class="m-0">3</h3>
+            </div>
+            <h4>Pay & Connect</h4>
+            <p>Pay via M-Pesa and start browsing</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

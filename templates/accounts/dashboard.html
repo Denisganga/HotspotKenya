@@ -1,0 +1,125 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Dashboard - HotspotKenya{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Welcome, {{ user.username }}!</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center mb-3 mb-md-0">
+                        <div class="border rounded p-3 h-100">
+                            <i class="fas fa-wifi fa-3x text-primary mb-3"></i>
+                            <h4>Active Subscriptions</h4>
+                            <p class="display-4">{{ active_subscriptions }}</p>
+                            <a href="{% url 'my_subscriptions' %}" class="btn btn-outline-primary">View Details</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center mb-3 mb-md-0">
+                        <div class="border rounded p-3 h-100">
+                            <i class="fas fa-shopping-cart fa-3x text-primary mb-3"></i>
+                            <h4>Buy Package</h4>
+                            <p class="lead">Browse our available packages</p>
+                            <a href="{% url 'package_list' %}" class="btn btn-primary">View Packages</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="border rounded p-3 h-100">
+                            <i class="fas fa-user-cog fa-3x text-primary mb-3"></i>
+                            <h4>Account Settings</h4>
+                            <p class="lead">Update your profile information</p>
+                            <a href="{% url 'profile' %}" class="btn btn-outline-primary">Edit Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card shadow h-100">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Recent Activity</h3>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for subscription in user.subscriptions.all|slice:":5" %}
+                        <div class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ subscription.package.name }}</h5>
+                                <small>{{ subscription.created_at|date:"M d, Y" }}</small>
+                            </div>
+                            <p class="mb-1">
+                                Status: 
+                                {% if subscription.status == 'active' %}
+                                    <span class="badge bg-success">Active</span>
+                                {% elif subscription.status == 'expired' %}
+                                    <span class="badge bg-secondary">Expired</span>
+                                {% else %}
+                                    <span class="badge bg-warning">{{ subscription.status|title }}</span>
+                                {% endif %}
+                            </p>
+                            <small>Valid until: {{ subscription.end_time|date:"F d, Y H:i" }}</small>
+                        </div>
+                    {% empty %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-info-circle fa-2x text-muted mb-3"></i>
+                            <p>No subscription history yet.</p>
+                            <a href="{% url 'package_list' %}" class="btn btn-primary">Buy Your First Package</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card shadow h-100">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Quick Actions</h3>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <a href="{% url 'package_list' %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100">
+                            <div class="me-3">
+                                <i class="fas fa-tags fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Browse Packages</h5>
+                                <p class="mb-1">View all available internet packages</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="{% url 'my_subscriptions' %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100">
+                            <div class="me-3">
+                                <i class="fas fa-history fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Subscription History</h5>
+                                <p class="mb-1">View all your past and current subscriptions</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="{% url 'profile' %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100">
+                            <div class="me-3">
+                                <i class="fas fa-user-edit fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Edit Profile</h5>
+                                <p class="mb-1">Update your personal information</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

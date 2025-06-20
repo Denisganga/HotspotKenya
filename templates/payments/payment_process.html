@@ -1,0 +1,92 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Payment - HotspotKenya{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Complete Your Payment</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h4>Package Details</h4>
+                        <div class="d-flex align-items-center mb-3">
+                            {% if payment.package.image %}
+                                <img src="{{ payment.package.image.url }}" alt="{{ payment.package.name }}" class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                    <i class="fas fa-wifi fa-2x text-primary"></i>
+                                </div>
+                            {% endif %}
+                            <div>
+                                <h5 class="mb-0">{{ payment.package.name }}</h5>
+                                <p class="text-muted mb-0">{{ payment.package.duration_hours }} Hours</p>
+                            </div>
+                        </div>
+                        
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Package Price</span>
+                                <strong>KSh {{ payment.amount }}</strong>
+                            </li>
+                            {% if payment.package.data_limit_mb %}
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Data Limit</span>
+                                    <strong>{{ payment.package.data_limit_mb|filesizeformat }}</strong>
+                                </li>
+                            {% endif %}
+                            {% if payment.package.speed_limit_kbps %}
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Speed Limit</span>
+                                    <strong>{{ payment.package.speed_limit_kbps }} Kbps</strong>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h4>M-Pesa Payment</h4>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Enter your M-Pesa phone number to receive a payment prompt.
+                        </div>
+                        
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="phone_number" class="form-label">Phone Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">+254</span>
+                                    <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="7XX XXX XXX" value="{{ payment.phone_number|slice:'4:' }}" required>
+                                </div>
+                                <div class="form-text">Enter your phone number without the country code (e.g., 7XXXXXXXX)</div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-mobile-alt me-2"></i> Pay KSh {{ payment.amount }} with M-Pesa
+                                </button>
+                                <a href="{% url 'package_list' %}" class="btn btn-outline-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="border-top pt-4 mt-2">
+                    <h5>How to Pay with M-Pesa</h5>
+                    <ol>
+                        <li>Enter your M-Pesa registered phone number above</li>
+                        <li>Click the "Pay with M-Pesa" button</li>
+                        <li>You will receive an STK push prompt on your phone</li>
+                        <li>Enter your M-Pesa PIN to complete the payment</li>
+                        <li>Once payment is confirmed, your subscription will be activated automatically</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HotspotKenya</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">HotspotKenya</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/packages">Packages</a>
+                    </li>
+                    <li class="nav-item dropdown active">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <%= user.name %>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                            <a class="dropdown-item" href="/users/profile">My Profile</a>
+                            <a class="dropdown-item" href="/users/active-package">My Package</a>
+                            <a class="dropdown-item" href="/users/payment-history">Payment History</a>
+                            <% if(user.role === 'admin') { %>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/admin">Admin Panel</a>
+                            <% } %>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <!-- Flash Messages -->
+        <% if(typeof success_msg != 'undefined' && success_msg != '') { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= success_msg %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% } %>
+        
+        <% if(typeof error_msg != 'undefined' && error_msg != '') { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= error_msg %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% } %>
+
+        <h1 class="mb-4">Welcome, <%= user.name %></h1>
+        
+        <div class="row">
+            <!-- Package Status Card -->
+            <div class="col-md-6 mb-4">
+                <div class="card dashboard-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title">Package Status</h5>
+                            <i class="fas fa-wifi dashboard-icon"></i>
+                        </div>
+                        <% if(user.activePackage && new Date() < user.packageExpiryDate) { %>
+                            <p class="card-text">You have an active package.</p>
+                            <a href="/users/active-package" class="btn btn-primary">View Package Details</a>
+                        <% } else { %>
+                            <p class="card-text">You don't have an active package.</p>
+                            <a href="/packages" class="btn btn-primary">Browse Packages</a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions Card -->
+            <div class="col-md-6 mb-4">
+                <div class="card dashboard-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title">Quick Actions</h5>
+                            <i class="fas fa-bolt dashboard-icon"></i>
+                        </div>
+                        <div class="list-group">
+                            <a href="/packages" class="list-group-item list-group-item-action">
+                                <i class="fas fa-shopping-cart mr-2"></i> Browse Packages
+                            </a>
+                            <a href="/users/payment-history" class="list-group-item list-group-item-action">
+                                <i class="fas fa-history mr-2"></i> Payment History
+                            </a>
+                            <a href="/users/profile" class="list-group-item list-group-item-action">
+                                <i class="fas fa-user-edit mr-2"></i> Edit Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Activity Card -->
+            <div class="col-md-12 mb-4">
+                <div class="card dashboard-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title">Recent Activity</h5>
+                            <i class="fas fa-chart-line dashboard-icon"></i>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Activity</th>
+                                        <th>Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activity-table">
+                                    <!-- Activity data will be loaded here via JavaScript -->
+                                    <tr>
+                                        <td colspan="3" class="text-center">Loading activity data...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>HotspotKenya</h5>
+                    <p>Providing fast and reliable internet services across Kenya.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-white">Home</a></li>
+                        <li><a href="/packages" class="text-white">Packages</a></li>
+                        <li><a href="/dashboard" class="text-white">Dashboard</a></li>
+                        <li><a href="/users/profile" class="text-white">My Profile</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Contact Us</h5>
+                    <address>
+                        <p><i class="fas fa-map-marker-alt mr-2"></i> Nairobi, Kenya</p>
+                        <p><i class="fas fa-phone mr-2"></i> +254 700 000000</p>
+                        <p><i class="fas fa-envelope mr-2"></i> info@hotspotkenya.com</p>
+                    </address>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <div class="text-center">
+                <p>&copy; <%= new Date().getFullYear() %> HotspotKenya. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        // Load recent activity data
+        $(document).ready(function() {
+            $.ajax({
+                url: '/api/users/activity',
+                method: 'GET',
+                success: function(data) {
+                    const activityTable = $('#activity-table');
+                    activityTable.empty();
+                    
+                    if (data.length === 0) {
+                        activityTable.html('<tr><td colspan="3" class="text-center">No recent activity found.</td></tr>');
+                        return;
+                    }
+                    
+                    data.forEach(function(activity) {
+                        const date = new Date(activity.date);
+                        activityTable.append(`
+                            <tr>
+                                <td>${date.toLocaleDateString()}</td>
+                                <td>${activity.type}</td>
+                                <td>${activity.details}</td>
+                            </tr>
+                        `);
+                    });
+                },
+                error: function() {
+                    $('#activity-table').html('<tr><td colspan="3" class="text-center">Failed to load activity data.</td></tr>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

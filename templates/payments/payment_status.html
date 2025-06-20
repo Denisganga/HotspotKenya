@@ -1,0 +1,84 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Payment Status - HotspotKenya{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Check payment status every 5 seconds if payment is pending
+    {% if payment.status == 'pending' %}
+    function checkPaymentStatus() {
+        // In a real application, you would make an AJAX call to check the payment status
+        // For this demo, we'll just reload the page after 5 seconds
+        setTimeout(function() {
+            window.location.reload();
+        }, 5000);
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        checkPaymentStatus();
+    });
+    {% endif %}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Payment Status</h3>
+            </div>
+            <div class="card-body text-center py-5">
+                {% if payment.status == 'completed' %}
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle fa-5x text-success"></i>
+                    </div>
+                    <h2 class="mb-3">Payment Successful!</h2>
+                    <p class="lead">Your payment of <strong>KSh {{ payment.amount }}</strong> for <strong>{{ payment.package.name }}</strong> has been completed successfully.</p>
+                    
+                    <div class="alert alert-success mt-4">
+                        <h5><i class="fas fa-wifi me-2"></i> Your subscription is now active!</h5>
+                        <p class="mb-0">Voucher Code: <strong>{{ payment.subscription.voucher_code }}</strong></p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'my_subscriptions' %}" class="btn btn-primary">View My Subscriptions</a>
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary ms-2">Go to Dashboard</a>
+                    </div>
+                {% elif payment.status == 'pending' %}
+                    <div class="mb-4">
+                        <div class="spinner-border text-primary" role="status" style="width: 5rem; height: 5rem;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <h2 class="mb-3">Payment Processing</h2>
+                    <p class="lead">We're waiting for confirmation of your payment of <strong>KSh {{ payment.amount }}</strong>.</p>
+                    
+                    <div class="alert alert-info mt-4">
+                        <h5><i class="fas fa-info-circle me-2"></i> Please check your phone</h5>
+                        <p class="mb-0">Complete the payment by entering your M-Pesa PIN when prompted.</p>
+                    </div>
+                    
+                    <p class="text-muted mt-3">This page will automatically update when your payment is confirmed.</p>
+                {% else %}
+                    <div class="mb-4">
+                        <i class="fas fa-times-circle fa-5x text-danger"></i>
+                    </div>
+                    <h2 class="mb-3">Payment Failed</h2>
+                    <p class="lead">Your payment of <strong>KSh {{ payment.amount }}</strong> for <strong>{{ payment.package.name }}</strong> could not be completed.</p>
+                    
+                    <div class="alert alert-danger mt-4">
+                        <h5><i class="fas fa-exclamation-triangle me-2"></i> Error</h5>
+                        <p class="mb-0">{{ payment.mpesa_details.result_description|default:"There was an issue processing your payment." }}</p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'payment_process' payment.id %}" class="btn btn-primary">Try Again</a>
+                        <a href="{% url 'package_list' %}" class="btn btn-outline-secondary ms-2">Browse Packages</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

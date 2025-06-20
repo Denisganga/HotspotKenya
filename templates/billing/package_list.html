@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Internet Packages - HotspotKenya{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4 text-center">
+        <h1>Internet Packages</h1>
+        <p class="lead">Choose the perfect plan for your internet needs</p>
+    </div>
+    
+    {% for package in packages %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 package-card">
+                {% if package.image %}
+                    <img src="{{ package.image.url }}" class="card-img-top" alt="{{ package.name }}">
+                {% else %}
+                    <img src="https://placehold.co/600x200?text=Package+Image" class="card-img-top" alt="{{ package.name }}">
+                {% endif %}
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>{{ package.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4">KSh {{ package.price }}</h4>
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item"><i class="fas fa-clock text-primary me-2"></i> {{ package.duration_hours }} Hours</li>
+                        {% if package.data_limit_mb %}
+                            <li class="list-group-item"><i class="fas fa-database text-primary me-2"></i> {{ package.data_limit_mb|filesizeformat }}</li>
+                        {% endif %}
+                        {% if package.speed_limit_kbps %}
+                            <li class="list-group-item"><i class="fas fa-tachometer-alt text-primary me-2"></i> {{ package.speed_limit_kbps|divisibleby:"1000"|yesno:"1 Mbps,"|default:package.speed_limit_kbps }} Kbps</li>
+                        {% endif %}
+                    </ul>
+                    <p class="card-text">{{ package.description|truncatewords:15 }}</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'package_detail' package.id %}" class="btn btn-outline-primary">View Details</a>
+                        <a href="{% url 'subscribe' package.id %}" class="btn btn-primary">Subscribe Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
+            <h3>No packages available at the moment</h3>
+            <p>Please check back later for new internet packages.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

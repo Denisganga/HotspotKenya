@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Profile - HotspotKenya{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Profile Information</h3>
+            </div>
+            <div class="card-body text-center">
+                {% if user.profile.profile_picture %}
+                    <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" class="rounded-circle img-fluid mb-3" style="max-width: 150px;">
+                {% else %}
+                    <img src="https://placehold.co/150x150?text=No+Image" alt="Default Profile" class="rounded-circle img-fluid mb-3">
+                {% endif %}
+                <h4>{{ user.username }}</h4>
+                <p class="text-muted">{{ user.email }}</p>
+                <p>
+                    <i class="fas fa-phone me-2"></i>
+                    {{ user.profile.phone_number|default:"No phone number added" }}
+                </p>
+                <p>
+                    <i class="fas fa-calendar me-2"></i>
+                    Member since: {{ user.profile.date_joined|date:"F d, Y" }}
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Update Profile</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>User Information</h5>
+                            {{ user_form|crispy }}
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Profile Information</h5>
+                            {{ profile_form|crispy }}
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
