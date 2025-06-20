@@ -2,6 +2,24 @@
 
 HotspotKenya is a Django-based WiFi hotspot billing system that allows users to purchase internet packages, make payments via M-Pesa, and manage their subscriptions.
 
+## Screenshots
+
+### Home Page
+![Home Page](https://raw.githubusercontent.com/Denisganga/HotspotKenya/main/screenshots/home_page.svg)
+*Landing page with hero section, features, and popular packages*
+
+### Packages Page
+![Packages Page](https://raw.githubusercontent.com/Denisganga/HotspotKenya/main/screenshots/packages_page.svg)
+*Browse available internet packages with details and pricing*
+
+### User Dashboard
+![User Dashboard](https://raw.githubusercontent.com/Denisganga/HotspotKenya/main/screenshots/dashboard_page.svg)
+*User dashboard showing active subscriptions and quick actions*
+
+### Payment Page
+![Payment Page](https://raw.githubusercontent.com/Denisganga/HotspotKenya/main/screenshots/payment_page.svg)
+*M-Pesa payment integration for package subscription*
+
 ## Features
 
 - User authentication and profile management

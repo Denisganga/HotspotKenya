@@ -1,0 +1,2 @@
+This is a placeholder for a screenshot of the HotspotKenya user dashboard.
+The actual screenshot would show the user's active subscriptions, recent activity, and quick actions.
